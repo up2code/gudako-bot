@@ -13,29 +13,55 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-  if (message.content === 'หวัดดี') {
-    message.channel.sendMessage('ขอกาวหน่อย');
-  }
-  else if(message.content === 'กุดาโกะ') {
-    message.channel.sendMessage('วรั้ย');
-  }
-  else if(message.content === 'กาว') {
-    message.channel.sendMessage('ซู๊ดดดดดดดดดดดดดดดดด~');
-  }
-  else if(message.content === 'ไขกาชา') {
+  
+    command(message,/(ไ|ใ)ข่?กา+ชา+/,['ทะด๊าา~','ง่อววววว','สวยงาม','ตู้หูว!'],function(ans){
+      var resultMessage = runGacha();
+      message.channel.sendMessage(ans+'\n'+resultMessage)
+    })
+    command(message,'หวัดดี',['มีกาวเท่าไหร่ส่งมาให้หมด','ดี'])
+    command(message,/กุดาโกะ/,['วรั้ย','ขอกาวหน่อย','กาวอยู่ไหน','I am the born of my glue'])
+    command(message,/^กา+ว+/,['ซู๊ดดดดดดดดดดดดดดดดด~~','ขออีก','น้อยอ่ะ เอามาอีก'])
+    command(message,/^เอากาว(ไหม|มั้ย|ม่?ะ|มั๊ย)/,['เอา','เอามา','ให้ไว','แล้วจะรอนายกมาตัดริบบิ้นรึไง'])
 
-    var results = randomGacha(10,function(name,i){})
-    var resultMessage = ''
-    for(var r=0;r<results.length;r++) {
-      resultMessage += (r+1)+' :'+results[r]+'\n'
-    }
-    message.channel.sendMessage(resultMessage)
-  }
 });
 
 client.login(config.TOKEN);
 
 //////////////////////////////
+function command(message,regexp,anwsers,callback) {
+  //console.log(message.author + ' : ' + message.content)
+    if(message.author.bot)
+      return;
+
+    var matched = false
+    if(typeof regexp === 'string') {
+        if(message.content===regexp) {
+            matched = true
+        }
+    }
+    else if(regexp.test(message.content)) {
+        matched = true
+    }
+
+    if(matched) {
+        var ans = anwsers[Math.floor(Math.random()*anwsers.length)];
+
+        if(callback===undefined)
+          message.channel.sendMessage(ans)  
+        else
+          callback(ans)
+    }
+}
+
+function runGacha() {
+    var results = randomGacha(10,function(name,i){})
+    var resultMessage = ''
+    for(var r=0;r<results.length;r++) {
+      resultMessage += (r+1)+' :'+results[r]+'\n'
+    }
+    return resultMessage;
+}
+
 function randomGacha(count,callback) {
 
   var gachaBox = [
