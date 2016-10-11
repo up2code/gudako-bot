@@ -1,3 +1,4 @@
+const servants = require('./res/servants')
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
@@ -18,6 +19,19 @@ client.on('message', message => {
       var resultMessage = runGacha();
       message.channel.sendMessage(ans+'\n'+resultMessage)
     })
+
+    command(message,/(ดู|เสิจ|ขอดู)?เซอร?์?เวนท?์?\s/,['หาแปป','แปปนะ','เค'],function(ans){
+      var s = findServant(message.content.split(' ')[1])
+      message.channel.sendMessage('id :'+s.id+'\nชื่อ : '+s.name+'\nลิงค์ดูเพิ่มเติม'+s.url)
+    })      
+
+    command(message,/(ดู|เสิจ|ขอดู)?เซอร?์?เวนท?์?ทั้งหมด/,['หาแปป','แปปนะ','เค'],function(ans){
+      var s = servants.reduce(function(c,n){
+          return c += '\n' + n.id + ' : [' + n.name + ']('+n.url+')'
+      })
+      message.channel.sendMessage(s,{split:true})
+    })
+
     command(message,'หวัดดี',['มีกาวเท่าไหร่ส่งมาให้หมด','ดี'])
     command(message,/กุดาโกะ/,['วรั้ย','ขอกาวหน่อย','กาวอยู่ไหน','I am the born of my glue'])
     command(message,/^กา+ว+/,['ซู๊ดดดดดดดดดดดดดดดดด~~','ขออีก','น้อยอ่ะ เอามาอีก'])
@@ -28,6 +42,10 @@ client.on('message', message => {
 client.login(config.TOKEN);
 
 //////////////////////////////
+function findServant(search) {
+    return servants.find(function(s){ return s.alias.indexOf(search)>-1 });
+}
+
 function command(message,regexp,anwsers,callback) {
   //console.log(message.author + ' : ' + message.content)
     if(message.author.bot)
