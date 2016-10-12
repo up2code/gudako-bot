@@ -1,0 +1,19 @@
+{
+  "bot" : {
+    "clientId": "xxxx",
+    "secret": "yyyy",
+    "token": "zzzz",
+    "chats": [
+      { "match" : "Hello", "answers" : ["Hola","Huh?"] }
+    ]
+  },
+  "numberOfRoll" : 10,
+  "gachaRate" : [
+    { "rate": 1, "name": "**5 ★ Servant**" },
+    { "rate": 4, "name": "**4 ★ Servant**" },
+    { "rate": 44, "name": "3 ★ Servant" },
+    { "rate": 48, "name": "**5 ★ Craft Essence**" },
+    { "rate": 60, "name": "4 ★ Craft Essence" },
+    { "rate": 100, "name": "3 ★ Craft Essence" }
+  ]
+}
